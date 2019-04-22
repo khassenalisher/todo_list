@@ -1,0 +1,72 @@
+create common folder 
+	mkdir project
+	cd project
+
+Djago:
+create virtual environment:
+	python -m venv v_env
+	cd v_env
+
+activate virtual environment:
+	source bin/activate
+
+install django for the environment:
+	pip install django
+
+create project:
+	django-admin startproject ​todo-back
+	cd todo-back
+
+migrate:
+	python manage.py migrate
+
+running server:
+	python manage.py runserver
+
+create app: 
+	python manage.py startapp api
+
+register app:
+
+check:
+	python manage.py runserver
+
+if ok then:
+
+In app create models:
+	TaskList:
+	Task:
+
+make migrations:
+	python manage.py makemigrations
+migrate: 
+	python manage.py migrate
+
+In api/admin.py import Task, TaskList and register them:
+	from .models import TaskList, Task
+	admin.site.register(TaskList)
+	admin.site.register(Task) 
+
+create superuser:
+	python manage.py createsuperuser
+
+create some Tasks and TaskLists
+
+in api/views.py create methods which explained in lab
+
+//FRONT ANGULAR
+Create angular project:
+	ng new todo-front
+	write: N
+	select: css
+	cd todo-front/src
+	code .
+Create component main:
+	cd app
+	ng generate component main or ng g c main
+
+Check if works:
+	ng serve
+http://localhost:4200/
+open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_sess_1" --disable-web-security
+

@@ -4,4 +4,10 @@ export interface ITask {
   status: string;
 }
 
-export interface ITaskDetail {}
+export interface ITaskDetail {
+  id: number;
+  name: string;
+  status: string;
+  created_at: string;
+  due_on: string;
+}

@@ -1,11 +1,23 @@
 <div class="container">
   <h1>Lab 11</h1>
+
+<!--CREATE CATEGORY:-->
+<div>
+  <input type="text" [(ngModel)]="name" />
+  <button (click)="createTaskList()">Create</button>
+</div>
+
   <div class="row">
     <h2 style="margin-top: 30px">List of Task Lists</h2>
     <ul class="list-group col-12">
 
-      <li *ngFor="let taskList of taskLists" class="list-group-item" (click)="getTasks(taskList)">
-        {{taskList.id}} : {{taskList.name}}
+      <li *ngFor="let taskList of taskLists" class="list-group-item" >
+        <span (click)="getTasks(taskList)">{{taskList.id}} : {{taskList.name}}</span>
+        <div style="margin-top: 20px">
+          <span><input type="text" [(ngModel)]="taskList.name" /></span>
+          <span style="color: green" (click)="updateTaskList(taskList)"> Edit</span>
+          <span style="color: red" (click)="deleteTaskList(taskList)"> Delete</span>
+        </div>
       </li>
     </ul>
   </div>
@@ -28,6 +40,9 @@
         <h6>Task List: {{taskList}}</h6>
         <p class="card-text">Created at: {{task.created_at}}</p>
         <p class="card-text">Due on: {{task.due_on}}</p>
+        <span><input type="text" [(ngModel)]="task.name" /></span>
+        <div><span (click)="updateTask(task)"> Edit</span></div>
+        <div><span (click)="deleteTask(task)"> Delete</span></div>
         <a href="#" style="background-color:green; border-color:green" class="btn btn-primary">{{task.status}}</a>
       </div>
     </div>
