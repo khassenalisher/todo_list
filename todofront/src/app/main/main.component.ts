@@ -1,7 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { ProviderService } from "../shared/services/provider.service";
-import { ITask, ITaskDetail } from "../shared/interfaces/task.interface";
+import {
+  ITask,
+  ITaskDetail,
+  ITaskCreate
+} from "../shared/interfaces/task.interface";
 import { ITaskList } from "../shared/interfaces/taskList.interface";
+
+import * as $ from "jquery";
 
 @Component({
   selector: "app-main",
@@ -11,18 +17,39 @@ import { ITaskList } from "../shared/interfaces/taskList.interface";
 export class MainComponent implements OnInit {
   public taskLists: ITaskList[] = [];
   public tasks: ITask[] = [];
-  public task: ITaskDetail = {};
+  public task: ITaskDetail = {
+    created_at: "",
+    due_on: "",
+    id: 0,
+    name: "",
+    status: ""
+  };
+  public createdTask: ITaskCreate = {
+    created_at: "2019-04-22T12:17:53",
+    due_on: "2016-12-19T20:00:00",
+    name: "",
+    status: ""
+  };
   public taskList = "";
   public taskListId = null;
   public loadingTasks = false;
   public loadingTask = false;
   public name: any = "";
+  public logged = false;
+  public login: any = "";
+  public password: any = "";
   constructor(private provider: ProviderService) {}
 
   ngOnInit() {
-    this.provider.getTaskLists().then(res => {
-      this.taskLists = res;
-    });
+    const token = localStorage.getItem("token");
+    if (token) {
+      this.logged = true;
+    }
+    if (this.logged) {
+      this.provider.getTaskLists().then(res => {
+        this.taskLists = res;
+      });
+    }
   }
 
   getTasks(taskList: ITaskList) {
@@ -73,6 +100,42 @@ export class MainComponent implements OnInit {
         this.loadingTask = false;
         this.loadingTasks = false;
       });
+    });
+  }
+
+  createTask() {
+    this.provider.createTask(this.createdTask, this.taskListId).then(res => {
+      this.createdTask.created_at = "2016-12-19T20:00:00";
+      this.createdTask.due_on = "2019-04-22T12:17:53";
+      this.createdTask.name = "";
+      this.createdTask.status = "";
+    });
+  }
+  auth() {
+    if (this.login !== "" && this.password !== "") {
+      this.provider.auth(this.login, this.password).then(res => {
+        localStorage.setItem("token", res.token);
+        this.logged = true;
+        this.provider.getTaskLists().then(res => {
+          this.taskLists = res;
+        });
+      });
+    }
+  }
+  clearData() {
+    this.taskLists = [];
+    this.loadingTasks = false;
+    this.loadingTask = false;
+    this.taskList = "";
+    this.login = "";
+    this.password = "";
+    this.taskListId = null;
+  }
+  logout() {
+    this.provider.logout().then(res => {
+      localStorage.clear();
+      this.logged = false;
+      this.clearData();
     });
   }
 }

@@ -1,8 +1,17 @@
 <div class="container">
   <h1>Lab 11</h1>
+<ng-container *ngIf="!logged">
+  <div>
+    <div><input type="text" [(ngModel)]="login" /></div>
+    <div><input type="text" [(ngModel)]="password" /></div>
+    <div><button (click)="auth()">Log in</button></div>
+  </div>
+</ng-container>
 
 <!--CREATE CATEGORY:-->
+<div *ngIf="logged">
 <div>
+  <h2>Create Task List</h2>
   <input type="text" [(ngModel)]="name" />
   <button (click)="createTaskList()">Create</button>
 </div>
@@ -12,11 +21,11 @@
     <ul class="list-group col-12">
 
       <li *ngFor="let taskList of taskLists" class="list-group-item" >
-        <span (click)="getTasks(taskList)">{{taskList.id}} : {{taskList.name}}</span>
+        <span (click)="getTasks(taskList)">ID: {{taskList.id}} - {{taskList.name}}</span>
         <div style="margin-top: 20px">
           <span><input type="text" [(ngModel)]="taskList.name" /></span>
-          <span style="color: green" (click)="updateTaskList(taskList)"> Edit</span>
-          <span style="color: red" (click)="deleteTaskList(taskList)"> Delete</span>
+          <span style="color: green; margin-left:20px; font-size:18px;" (click)="updateTaskList(taskList)"> Update</span>
+          <span style="color: red; margin-left:20px; font-size:18px;" (click)="deleteTaskList(taskList)"> Delete</span>
         </div>
       </li>
     </ul>
@@ -37,16 +46,42 @@
     <div class="card" style="width: 22rem; margin-top: 20px">
       <div class="card-body">
         <h5 class="card-title">{{task.name}}:</h5>
-        <h6>Task List: {{taskList}}</h6>
+        <span><input type="text" [(ngModel)]="task.name" /></span>
+        <div style="margin-top:5px" ><span style="font-size: 17px;color: green" (click)="updateTask(task)"> Edit Name</span></div>
+        <h6 style="margin-top: 20px">Task List: {{taskList}}</h6>
         <p class="card-text">Created at: {{task.created_at}}</p>
         <p class="card-text">Due on: {{task.due_on}}</p>
-        <span><input type="text" [(ngModel)]="task.name" /></span>
-        <div><span (click)="updateTask(task)"> Edit</span></div>
-        <div><span (click)="deleteTask(task)"> Delete</span></div>
-        <a href="#" style="background-color:green; border-color:green" class="btn btn-primary">{{task.status}}</a>
+        <p class="card-text">Status: {{task.status}}</p>
+        <span><input type="text" [(ngModel)]="task.status" /></span>
+        <div style="margin-top:5px" ><span style="font-size: 17px;color: green" (click)="updateTask(task)"> Edit Status</span></div>
+        
+        <div style="margin-top:20px "><span style="font-size: 17px;color: red" (click)="deleteTask(task)"> Delete</span></div>
       </div>
     </div>
   </ng-container>
   
+
+  <div style="margin-top: 50px; width: 16rem; margin-bottom: 50px; text-align: center;" class="card">
+    <div class="card-body">
+      <h4>Create Task for: </h4>
+      <h5>{{taskList}}</h5>
+      <p style="margin-bottom: 10px;">Name of the task</p>
+      <span><input type="text" [(ngModel)]="createdTask.name" /></span>
+      <p style="margin-bottom: 10px">Status</p>
+      <span><input type="text" [(ngModel)]="createdTask.status" /></span>
+      
+      <p style="margin-bottom: 10px">Created at</p>
+      <span><input type="text" [(ngModel)]="createdTask.created_at" /></span>
+      <p style="margin-bottom: 10px">Due on</p>
+      <span><input type="text" [(ngModel)]="createdTask.due_on" /></span>
+      <div style="margin-top:5px" ><span style="font-size: 17px;color: green" (click)="createTask()">Create</span></div>
+    </div>
+  </div>
+  <div>
+    <button (click)="logout()">Log out</button>
+  </div>
 </div>
+  
+</div>
+
 

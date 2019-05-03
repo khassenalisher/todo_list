@@ -11,3 +11,14 @@ export interface ITaskDetail {
   created_at: string;
   due_on: string;
 }
+
+export interface ITaskCreate {
+  name: string;
+  status: string;
+  created_at: string;
+  due_on: string;
+}
+
+export interface IAuthResponse {
+  token: string;
+}
